@@ -1,10 +1,22 @@
 const flashdata = $('.flashdata').data('flashdata');
+const flashlogin = $('.login').data('login');
+
+console.log(flashlogin);
+
 
 if (flashdata) {
     Swal({
         title : 'Data Berhasil '+flashdata,
         text : 'Kamu mantap nak bujang',
         type : 'success'
+    });
+}
+
+if (flashlogin) {
+    Swal({
+        type: 'error',
+        title: 'Oops...',
+        text: flashlogin
     });
 }
 

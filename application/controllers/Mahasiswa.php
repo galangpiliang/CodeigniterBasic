@@ -7,18 +7,71 @@ class Mahasiswa extends CI_Controller{
         $this->load->model('Mahasiswa_model');
         $this->load->library('form_validation');
     }
-    
-    public function index()
-    {
-        if ($this->input->post('keyword')) {
-            $data['mahasiswa'] = $this->Mahasiswa_model->cariDataMahasiswa();
-        } else {
-            $data['mahasiswa'] = $this->Mahasiswa_model->getAllMahasiswa();
+
+    function index(){
+        // function ini hanya boleh diakses oleh admin dan dosen
+        if($this->session->userdata('akses')=='1' || $this->session->userdata('akses')=='2')
+        {
+            if ($this->input->post('keyword')) {
+                $data['mahasiswa'] = $this->Mahasiswa_model->cariDataMahasiswa();
+            } else {
+                $data['mahasiswa'] = $this->Mahasiswa_model->getAllMahasiswa();
+            }
+            $data['judul'] = 'Daftar Mahasiswa';
+            $this->load->view('templates/header',$data);
+            $this->load->view('mahasiswa/index',$data);
+            $this->load->view('templates/footer');
         }
-        $data['judul'] = 'Daftar Mahasiswa';
-        $this->load->view('templates/header',$data);
-        $this->load->view('mahasiswa/index',$data);
-        $this->load->view('templates/footer');
+        else
+        {
+            echo "Anda tidak berhak mengakses halaman ini";
+        }
+    
+    }
+
+    function input_nilai(){
+        // function ini hanya boleh diakses oleh admin dan dosen
+        if($this->session->userdata('akses')=='1' || $this->session->userdata('akses')=='2')
+        {
+            $data['judul'] = 'Input Nilai';
+            $this->load->view('templates/header',$data);
+            $this->load->view('mahasiswa/inputnilai',$data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            echo "Anda tidak berhak mengakses halaman ini";
+        }
+    }
+
+    function krs(){
+        // function ini hanya boleh diakses oleh admin dan mahasiswa
+        if($this->session->userdata('akses')=='1' || $this->session->userdata('akses')=='3')
+        {
+            $data['judul'] = 'KRS Mahasiswa';
+            $this->load->view('templates/header',$data);
+            $this->load->view('mahasiswa/krs',$data);
+            $this->load->view('templates/footer');
+        }   
+        else
+        {
+            echo "Anda tidak berhak mengakses halaman ini";
+        }
+    }
+
+    function lhs(){
+        // function ini hanya boleh diakses oleh admin dan mahasiswa
+        if($this->session->userdata('akses')=='1' || $this->session->userdata('akses')=='3')
+        {
+            $data['judul'] = 'LHS Mahasiswa';
+            $this->load->view('templates/header',$data);
+            $this->load->view('mahasiswa/lhs',$data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            echo "Anda tidak berhak mengakses halaman ini";
+        }
     }
 
     public function tambah()
